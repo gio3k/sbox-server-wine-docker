@@ -1,0 +1,4 @@
+#!/bin/bash
+echo Running sbox-server...
+export WINEPREFIX=/wine/prefix
+wine /wine/steamapps/sbox-server/sbox-server.exe ${SBOX_SERVER_ARGUMENTS} "$@"
