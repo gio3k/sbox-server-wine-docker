@@ -1,4 +1,14 @@
 #!/bin/bash
 echo Running sbox-server...
-export WINEPREFIX=/wine/prefix
+echo Checking for a valid prefix...
+if [ -d "$HOME/.wine" ]; then
+    echo "Found a valid prefix for this user."
+else
+    echo "Not found - initializing prefix..."
+    cp -r /wine/prefix $HOME/.wine
+    chown -R $USER: $HOME/.wine
+fi
+
+echo "Starting server..."
+export WINEPREFIX="$HOME/.wine"
 wine /wine/steamapps/sbox-server/sbox-server.exe ${SBOX_SERVER_ARGUMENTS} "$@"
