@@ -1,0 +1,6 @@
+#!/bin/bash
+echo Updating sbox-server...
+/usr/games/steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir /wine/steamapps/sbox-server/ +login anonymous +app_update 1892930 validate -beta staging +quit
+
+echo Running sbox-server...
+wine /wine/steamapps/sbox-server/sbox-server.exe "${SBOX_SERVER_ARGUMENTS}"
