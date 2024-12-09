@@ -1,28 +1,22 @@
 #!/bin/bash
 set -e
 
-echo Running sbox-server...
-echo Checking for a valid prefix...
-
 export WINEPREFIX="$HOME/.wine-sbox"
 
 if [ "$EUID" -eq 0 ]; then
-    echo "Running as root - using the prefix at '/wine/prefix'"
+    # Use the root prefix (/wine/prefix)
     export WINEPREFIX="/wine/prefix"
 fi
 
-if [ -d "$WINEPREFIX" ]; then
-    echo "Found a valid prefix for this user."
-else
+if [ ! -d "$WINEPREFIX" ]; then
     if [ ! -d "/wine/prefix" ]; then
         echo "'/wine/prefix' wasn't found!"
         exit 1
     fi
 
-    echo "Not found - creating a copy of '/wine/prefix'"
+    echo "Creating a copy of '/wine/prefix'"
     cp -r /wine/prefix "$WINEPREFIX"
     chown -R $USER: "$WINEPREFIX"
 fi
 
-echo "Starting server..."
 wine /wine/steamapps/sbox-server/sbox-server.exe ${SBOX_SERVER_ARGUMENTS} "$@"
