@@ -11,7 +11,9 @@ ARG DEBIAN_FRONTEND="noninteractive"
 RUN apt-get install --assume-yes --no-install-recommends ca-certificates cabextract wine wine32 wine64 libwine libwine:i386 fonts-wine winetricks wget winbind xserver-xorg-core xvfb psmisc && \
     echo steam steam/question select "I AGREE" | debconf-set-selections && \
     echo steam steam/license note '' | debconf-set-selections && \
-    apt-get install steamcmd
+    apt-get install --assume-yes steamcmd && \
+    apt-get clean --assume-yes && \
+    rm -rf /tmp/* /var/tmp/*
 
 # Prepare Wine environment
 RUN mkdir /wine /wine/prefix /wine/redist /wine/steamapps
