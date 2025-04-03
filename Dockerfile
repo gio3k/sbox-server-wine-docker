@@ -1,8 +1,8 @@
-FROM debian:bookworm
+FROM debian:trixie
 
 # Prepare our package system
 RUN dpkg --add-architecture i386 && \
-    sed -i 's/^Components: main$/& contrib non-free/' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's/^Components: main$/& contrib non-free non-free-firmware/' /etc/apt/sources.list.d/debian.sources && \
     apt-get update
 
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -18,17 +18,11 @@ RUN apt-get install --assume-yes --no-install-recommends ca-certificates cabextr
 # Prepare Wine environment
 RUN mkdir /wine /wine/redist /wine/steamapps /wine/prefix
 
-WORKDIR /wine/redist
-RUN wget https://aka.ms/vs/17/release/vc_redist.x86.exe && \
-    wget https://aka.ms/vs/17/release/vc_redist.x64.exe && \
-    wget https://download.visualstudio.microsoft.com/download/pr/38e45a81-a6a4-4a37-a986-bc46be78db16/33e64c0966ebdf0088d1a2b6597f62e5/dotnet-sdk-9.0.101-win-x64.exe
-
 # Install redistributables and update steamcmd
 RUN <<EOF
 Xvfb :2 -core -nolisten tcp &
-DISPLAY=:2 WINEPREFIX=/wine/prefix wine vc_redist.x64.exe /install /norestart /passive /log redist.x64.log.txt
-DISPLAY=:2 WINEPREFIX=/wine/prefix wine vc_redist.x86.exe /install /norestart /passive /log redist.x86.log.txt
-DISPLAY=:2 WINEPREFIX=/wine/prefix wine dotnet-sdk-9.0.101-win-x64.exe /install /quiet /norestart
+DISPLAY=:2 WINEPREFIX=/wine/prefix winetricks -q --force win10
+DISPLAY=:2 WINEPREFIX=/wine/prefix winetricks -q --force vcrun2022 dotnet9
 /usr/games/steamcmd +quit
 killall Xvfb
 EOF
@@ -38,11 +32,6 @@ RUN apt-get remove --assume-yes xorg xserver-xorg-core xvfb fonts-wine psmisc ca
     apt-get autoremove --assume-yes && \
     apt-get clean --assume-yes && \
     rm -rf /tmp/* /var/tmp/*
-
-# Copy log files
-RUN mv redist.x86.log.txt /wine/ && \
-    mv redist.x64.log.txt /wine/ && \
-    rm -r /wine/redist
 
 # Give all users access to the SteamApps foldeer and wine prefix, just in case another user is meant to use this
 RUN chmod -R 777 /wine/steamapps && chmod -R 777 /wine/prefix
