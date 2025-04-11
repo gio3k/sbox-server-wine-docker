@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 update-sbox-server
 sbox-server-no-update

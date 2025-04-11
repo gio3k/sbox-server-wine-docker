@@ -42,9 +42,16 @@ RUN apt-get remove --assume-yes git make xorg xserver-xorg-core xvfb fonts-wine 
 RUN chmod -R 777 /wine/steamapps && chmod -R 777 /wine/prefix
 
 # Prepare sbox-server (we won't install it here during the build)
-ADD ./sbox-server /usr/local/bin/sbox-server
-ADD ./sbox-server-no-update /usr/local/bin/sbox-server-no-update
-ADD ./update-sbox-server /usr/local/bin/update-sbox-server
+ADD sbox-server.sh /usr/local/bin/sbox-server
+ADD sbox-server-no-update.sh /usr/local/bin/sbox-server-no-update
+ADD update-sbox-server.sh /usr/local/bin/update-sbox-server
+
+# Fix Windows-isms
+RUN apt-get install --assume-yes dos2unix && \
+    dos2unix /usr/local/bin/sbox-server && \
+    dos2unix /usr/local/bin/sbox-server-no-update && \
+    dos2unix /usr/local/bin/update-sbox-server
+
 RUN chmod +x /usr/local/bin/sbox-server && chmod +x /usr/local/bin/sbox-server-no-update && chmod +x /usr/local/bin/update-sbox-server
 
 ENTRYPOINT ["bash", "-c", "/usr/local/bin/sbox-server"]
