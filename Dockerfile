@@ -23,7 +23,6 @@ RUN <<EOF
 Xvfb :2 -core -nolisten tcp &
 DISPLAY=:2 WINEPREFIX=/wine/prefix winetricks -q --force win10
 DISPLAY=:2 WINEPREFIX=/wine/prefix winetricks -q --force vcrun2022 dotnet9
-/usr/games/steamcmd +quit
 killall Xvfb
 EOF
 
