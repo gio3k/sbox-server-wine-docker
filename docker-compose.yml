@@ -8,4 +8,4 @@ services:
       dockerfile: ./Dockerfile
     environment:
       - SBOX_SERVER_ARGUMENTS=+game fish.sauna
-    image: giodotblue/sbox-server:debian-wine-v1
+    image: giodotblue/sbox-server:debian-wine-v2
