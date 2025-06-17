@@ -1,5 +1,5 @@
 # sbox-server-wine-docker
- s&box server container using Debian & Wine
+ s&box server container using Alpine Linux & Wine
 
 ## Usage
 Make sure [Docker and Docker Compose](https://docs.docker.com/engine/install/) are installed.
