@@ -52,7 +52,7 @@ jobs:
       # Get date for tag use
       - name: Get current date tag
         id: date
-        run: echo "tag=$(date +'%m-%Y')" >> "$GITHUB_OUTPUT"
+        run: echo "tag=$(date +'%d-%m-%Y')" >> "$GITHUB_OUTPUT"
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
