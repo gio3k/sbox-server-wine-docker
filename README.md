@@ -4,13 +4,13 @@
 ## Quick Setup
 ```
 # Latest Public Build
-sudo docker run giodotblue/sbox-server:latest +game facepunch.walker (public build)
+sudo docker run giodotblue/sbox-server:latest +game facepunch.walker
 
 # Latest Staging Build
-sudo docker run giodotblue/sbox-server:staging-latest +game facepunch.walker (staging build)
+sudo docker run giodotblue/sbox-server:staging-latest +game facepunch.walker
 
 # Specific Staging Build
-sudo docker run giodotblue/sbox-server:staging-17-06-2025 +game facepunch.walker (staging build with date tag)
+sudo docker run giodotblue/sbox-server:staging-17-06-2025 +game facepunch.walker
 ```
 
 ## Usage
